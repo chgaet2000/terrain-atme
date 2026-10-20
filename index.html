@@ -517,7 +517,6 @@ const STEPS_REMONTEE = [
       {key:'chef_informe', label:'J’ai informé mon chef ou l’entreprise du risque (par téléphone ou physiquement)', type:'radio-options', options:OUINON, required:true},
     ]
   },
-  { id:'review', kind:'review', title:'Récapitulatif', eyebrow:'Étape 5' },
 ];
 
 /* ============================================================
@@ -1481,7 +1480,7 @@ function renderFormScreen(){
   // Formulaire sans récapitulatif : les champs obligatoires manquants sont signalés ici.
   const missingAlert = (isLast && step.kind !== 'review' && missing.length && appState.showMissing)
     ? '<div class="alert warn" style="margin-bottom:14px;"><strong>Champs obligatoires à remplir</strong><ul>'
-      + missing.map(m => '<li>'+esc(m.label)+'</li>').join('') + '</ul></div>'
+      + missing.map(m => '<li>'+esc(m.label)+(m.stepIndex !== appState.stepIndex ? ' — <button class="link" onclick="jumpToStep('+m.stepIndex+')">compléter</button>' : '')+'</li>').join('') + '</ul></div>'
     : '';
 
   const body = missingAlert + '<div class="card">'
@@ -1531,7 +1530,7 @@ function renderListScreen(){
 
   html += '<button class="fab-new" onclick="startNewEntry()">'+ICONS.plus+' Nouvelle saisie</button>';
   if(hasAnyAnswer()){
-    html += '<div class="banner local" style="cursor:pointer;" onclick="goTab(\'form\')">Brouillon en cours ('+countAnsweredSteps()+'/'+(form.steps.length-1)+' étapes) — appuyer pour reprendre.</div>';
+    html += '<div class="banner local" style="cursor:pointer;" onclick="goTab(\'form\')">Brouillon en cours ('+countAnsweredSteps()+'/'+form.steps.filter(s => s.kind !== 'review').length+' étapes) — appuyer pour reprendre.</div>';
   }
   if(list.length === 0) html += '<div class="empty">'+ICONS.empty+'<p>Aucune saisie enregistrée pour l’instant.</p></div>';
   else html += list.map(a => renderEntryCard(form, a)).join('');

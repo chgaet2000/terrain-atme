@@ -1,0 +1,9 @@
+{
+  "appId": "fr.atme.terrain",
+  "appName": "Terrain ATME",
+  "webDir": "www",
+  "backgroundColor": "#eff4f4",
+  "plugins": {
+    "SystemBars": { "insetsHandling": "css" }
+  }
+}
